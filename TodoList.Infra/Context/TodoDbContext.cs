@@ -8,7 +8,7 @@ public class TodoDbContext : DbContext
     private readonly string? _host = Environment.GetEnvironmentVariable("HOST") ?? "localhost";
     private readonly string? _port = Environment.GetEnvironmentVariable("PORT") ?? "5432";
     private readonly string? _user = Environment.GetEnvironmentVariable("USER") ?? "jradmin";
-    private readonly string? _password = Environment.GetEnvironmentVariable("PASSWORDT") ?? "12345678";
+    private readonly string? _password = Environment.GetEnvironmentVariable("PASSWORD") ?? "12345678";
     private readonly string? _database = Environment.GetEnvironmentVariable("DATABASE") ?? "TodoDb";
     public TodoDbContext()
     {
