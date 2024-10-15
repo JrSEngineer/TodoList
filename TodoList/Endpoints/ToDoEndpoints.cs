@@ -9,7 +9,8 @@ namespace TodoList.Endpoints
     {
         public static void MapToDoEndpoints(this IEndpointRouteBuilder app)
         {
-            var group = app.MapGroup("api/todos");
+            var group = app.MapGroup("api/todos")
+                           .WithTags("ToDos");
 
             group.MapPost("", async (TodoDbContext context, ToDo newTodo) =>
             {
