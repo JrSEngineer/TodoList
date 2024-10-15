@@ -19,6 +19,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapGet("test",() => $"Todo List API is Running! {DateTime.UtcNow}");
+
 app.MapToDoEndpoints();
 
 app.Run();
