@@ -1,3 +1,4 @@
+using TodoList.Endpoints;
 using TodoList.Infra.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,5 +18,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapToDoEndpoints();
 
 app.Run();
