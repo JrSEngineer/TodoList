@@ -1,0 +1,33 @@
+services:
+  database:
+    image: postgres:15-bullseye
+    container_name: database
+    ports:
+      - 5432:5432
+    env_file: ".env"
+    environment:
+      - POSTGRES_USER=jradmin
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=TodoDb
+
+  todolist:
+    image: ${DOCKER_REGISTRY-}todolist
+    container_name: api
+    build:
+      context: .
+      dockerfile: TodoList/Dockerfile
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    depends_on: 
+      - database
+
+    restart: on-failure
+
+    env_file: ".env"
+    environment:
+      - HOST=database
+      - PORT=5432
+      - USER=jradmin
+      - PASSWORD=12345678
+      - DATABASE=TodoDb

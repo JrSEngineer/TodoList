@@ -1,0 +1,7 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "TodoList/Dockerfile"
+
+[deploy]
+startCommand = "dotnet TodoList.dll"
+restartPolicyType = "never"
