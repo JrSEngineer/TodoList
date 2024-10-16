@@ -38,7 +38,7 @@ namespace TodoList.Endpoints
                 return Results.Ok(ToDos);
             });
 
-            group.MapPatch("/:{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id, ToDo toDo) =>
+            group.MapPut("/:{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id, ToDo toDo) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
                 if (currentToDo == null)
