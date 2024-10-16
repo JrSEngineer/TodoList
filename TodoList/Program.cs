@@ -27,9 +27,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("development-policy");
+app.UseRouting();
 
 app.UseHttpsRedirection();
+
+app.UseCors("development-policy");
 
 app.MapGet("test", () => $"Todo List API is Running! {DateTime.UtcNow}");
 
