@@ -23,7 +23,10 @@ namespace TodoList.Endpoints
             group.MapGet(":{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
-                if (currentToDo == null) return Results.NotFound($"ToDo not found: {id}");
+                if (currentToDo == null)
+                {
+                    return Results.NotFound($"ToDo not found: {id}");
+                }
 
                 return Results.Ok(currentToDo);
             });
@@ -37,7 +40,10 @@ namespace TodoList.Endpoints
             group.MapPatch(":{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id, ToDo toDo) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
-                if (currentToDo == null) return Results.NotFound($"ToDo not found: {id}");
+                if (currentToDo == null)
+                {
+                    return Results.NotFound($"ToDo not found: {id}");
+                }
 
                 currentToDo.Title = toDo.Title;
                 currentToDo.Description = toDo.Description;
@@ -51,7 +57,10 @@ namespace TodoList.Endpoints
             group.MapDelete(":{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
-                if (currentToDo == null) return Results.NotFound($"ToDo not found: {id}");
+                if (currentToDo == null)
+                {
+                    return Results.NotFound($"ToDo not found: {id}");
+                }
 
                 context.ToDo.Remove(currentToDo);
 
