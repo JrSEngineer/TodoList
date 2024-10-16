@@ -21,7 +21,7 @@ namespace TodoList.Endpoints
                 return Results.Created("todo-api", newTodo);
             });
 
-            group.MapGet("{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id) =>
+            group.MapGet("/:{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
                 if (currentToDo == null)
@@ -38,7 +38,7 @@ namespace TodoList.Endpoints
                 return Results.Ok(ToDos);
             });
 
-            group.MapPatch("", async (TodoDbContext context, [FromQuery(Name = "id")] int id, ToDo toDo) =>
+            group.MapPatch("/:{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id, ToDo toDo) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
                 if (currentToDo == null)
@@ -55,7 +55,7 @@ namespace TodoList.Endpoints
                 return Results.Ok(currentToDo);
             });
 
-            group.MapDelete("", async (TodoDbContext context, [FromQuery(Name = "id")] int id) =>
+            group.MapDelete("/:{id}", async (TodoDbContext context, [FromQuery(Name = "id")] int id) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
                 if (currentToDo == null)
