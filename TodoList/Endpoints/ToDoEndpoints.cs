@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TodoList.Domain.Entities;
 using TodoList.Infra.Context;
 
@@ -38,6 +37,21 @@ namespace TodoList.Endpoints
                 return Results.Ok(ToDos);
             });
 
+            group.MapPatch("{id}", async (TodoDbContext context, int id) =>
+            {
+                var currentToDo = await context.ToDo.FindAsync(id);
+                if (currentToDo == null)
+                {
+                    return Results.NotFound($"ToDo not found: {id}");
+                }
+
+                currentToDo.InProgress= true;
+
+                await context.SaveChangesAsync();
+
+                return Results.Ok(currentToDo);
+            });
+            
             group.MapPut("{id}", async (TodoDbContext context, int id, ToDo toDo) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
