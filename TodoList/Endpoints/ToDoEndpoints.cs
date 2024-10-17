@@ -31,6 +31,19 @@ namespace TodoList.Endpoints
                 return Results.Ok(currentToDo);
             });
 
+            group.MapGet("/search={search}", async (TodoDbContext context, string search) =>
+            {
+                var currentToDo = context.ToDo.Where(todo => todo.Title.ToLower().Contains(search.ToLower()) || 
+                                                     todo.Description.ToLower().Contains(search.ToLower())).ToList();
+
+                if (!currentToDo.Any())
+                {
+                    return Results.NotFound(new {Message = $"ToDo not found. Searching for: {search}" });
+                }
+
+                return Results.Ok(currentToDo);
+            });
+
             group.MapGet("", async (TodoDbContext context) =>
             {
                 var ToDos = await context.ToDo.ToListAsync();
