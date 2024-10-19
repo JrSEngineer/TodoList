@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList", "TodoList\TodoList.csproj", "{ABD2A7EC-8FC8-4B67-9906-8E7F07DBF902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoList", "TodoList\TodoList.csproj", "{ABD2A7EC-8FC8-4B67-9906-8E7F07DBF902}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A24B6CAD-444E-4177-9A4B-6EAF20B2C528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Domain", "TodoList.Domain\TodoList.Domain.csproj", "{65797E3D-A8F7-4E6D-97D5-DDFCCFAB0E96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoList.Domain", "TodoList.Domain\TodoList.Domain.csproj", "{65797E3D-A8F7-4E6D-97D5-DDFCCFAB0E96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoList.Infra", "TodoList.Infra\TodoList.Infra.csproj", "{816C2C5F-553F-4E3C-A901-959A4FC51834}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoList.Infra", "TodoList.Infra\TodoList.Infra.csproj", "{816C2C5F-553F-4E3C-A901-959A4FC51834}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoTests", "ToDoTests\ToDoTests.csproj", "{20C28C4C-9050-4AEC-8009-D0ECB438D0F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{816C2C5F-553F-4E3C-A901-959A4FC51834}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{816C2C5F-553F-4E3C-A901-959A4FC51834}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{816C2C5F-553F-4E3C-A901-959A4FC51834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C28C4C-9050-4AEC-8009-D0ECB438D0F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C28C4C-9050-4AEC-8009-D0ECB438D0F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C28C4C-9050-4AEC-8009-D0ECB438D0F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C28C4C-9050-4AEC-8009-D0ECB438D0F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
