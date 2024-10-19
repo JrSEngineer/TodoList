@@ -76,6 +76,7 @@ namespace TodoList.Endpoints
                 currentToDo.Title = toDo.Title;
                 currentToDo.Description = toDo.Description;
                 currentToDo.Completed = toDo.Completed;
+                currentToDo.InProgress = toDo.InProgress;
 
                 await context.SaveChangesAsync();
 
