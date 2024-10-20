@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TodoList.Domain.Entities;
+using TodoList.Dtos;
 using TodoList.Infra.Context;
 
 namespace TodoList.Endpoints
@@ -31,14 +32,15 @@ namespace TodoList.Endpoints
                 return Results.Ok(currentToDo);
             });
 
-            group.MapGet("/search={search}", async (TodoDbContext context, string search) =>
+            group.MapGet("/search={search}", (TodoDbContext context, string search) =>
             {
-                var currentToDo = context.ToDo.Where(todo => todo.Title.ToLower().Contains(search.ToLower()) || 
-                                                     todo.Description.ToLower().Contains(search.ToLower())).ToList();
+                var currentToDo = context.ToDo.Where(todo =>
+                todo.Title.ToLower().Contains(search.ToLower()) ||
+                todo.Description.ToLower().Contains(search.ToLower())).ToList();
 
                 if (!currentToDo.Any())
                 {
-                    return Results.NotFound(new {Message = $"ToDo not found. Searching for: {search}" });
+                    return Results.NotFound(new { Message = $"ToDo not found. Searching for: {search}" });
                 }
 
                 return Results.Ok(currentToDo);
@@ -46,8 +48,17 @@ namespace TodoList.Endpoints
 
             group.MapGet("", async (TodoDbContext context) =>
             {
-                var ToDos = await context.ToDo.ToListAsync();
-                return Results.Ok(ToDos);
+                var toDos = await context.ToDo.ToListAsync();
+                ToDoList toDoList = new ToDoList(toDos ?? []);
+                var toDoListDto = new ToDoListDto(
+                    toDos = toDoList.ToDos,
+                    new ToDoPorcentageDto(
+                        toDoList.GetWaitingToDoPorcentage(),
+                        toDoList.GetInProgressToDoPorcentage(),
+                        toDoList.GetCompletedToDoPorcentage()
+                        )
+                    );
+                return Results.Ok(toDoListDto);
             });
 
             group.MapPatch("{id}", async (TodoDbContext context, int id) =>
@@ -58,13 +69,13 @@ namespace TodoList.Endpoints
                     return Results.NotFound($"ToDo not found: {id}");
                 }
 
-                currentToDo.InProgress= true;
+                currentToDo.InProgress = true;
 
                 await context.SaveChangesAsync();
 
                 return Results.Ok(currentToDo);
             });
-            
+
             group.MapPut("{id}", async (TodoDbContext context, int id, ToDo toDo) =>
             {
                 var currentToDo = await context.ToDo.FindAsync(id);
