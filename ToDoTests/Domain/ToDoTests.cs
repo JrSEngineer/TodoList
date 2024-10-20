@@ -18,7 +18,7 @@ public class ToDoTests
     {
         var awaitingToDosPorcentage = _toDoList.GetWaitingToDoPorcentage();
 
-        Assert.IsType<double>(awaitingToDosPorcentage);
+        Assert.IsType<int>(awaitingToDosPorcentage);
         Assert.Equal(33,awaitingToDosPorcentage);
     }
     
@@ -27,7 +27,7 @@ public class ToDoTests
     {
         var inProgressToDosPorcentage = _toDoList.GetInProgressToDoPorcentage();
 
-        Assert.IsType<double>(inProgressToDosPorcentage);
+        Assert.IsType<int>(inProgressToDosPorcentage);
         Assert.Equal(33,inProgressToDosPorcentage);
     }
 
@@ -36,7 +36,7 @@ public class ToDoTests
     {
         var completedToDosPorcentage = _toDoList.GetCompletedToDoPorcentage();
 
-        Assert.IsType<double>(completedToDosPorcentage);
+        Assert.IsType<int>(completedToDosPorcentage);
         Assert.Equal(33,completedToDosPorcentage);
     }
 }

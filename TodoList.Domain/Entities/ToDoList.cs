@@ -7,29 +7,29 @@ public class ToDoList
     }
     public List<ToDo> ToDos { get; set; }
 
-    public double GetWaitingToDoPorcentage()
+    public int GetWaitingToDoPorcentage()
     {
         var waitingToDos = ToDos.Where(t => !t.InProgress && !t.Completed).ToList();
-        double toDosAwaitingPresentation = (double)waitingToDos.Count() * (double)100;
-        double porcentage = toDosAwaitingPresentation / (double)ToDos.Count();
+        int toDosAwaitingPresentation = (int)waitingToDos.Count() * (int)100;
+        int porcentage = toDosAwaitingPresentation / (int)ToDos.Count();
 
         return ((int)porcentage);
     }
     
-    public double GetInProgressToDoPorcentage()
+    public int GetInProgressToDoPorcentage()
     {
         var inProgressToDos = ToDos.Where(t => t.InProgress).ToList();
-        double toDosInProgressPresentation = (double)inProgressToDos.Count() * (double)100;
-        double porcentage = toDosInProgressPresentation / (double)ToDos.Count();
+        int toDosInProgressPresentation = (int)inProgressToDos.Count() * (int)100;
+        int porcentage = toDosInProgressPresentation / (int)ToDos.Count();
 
         return ((int)porcentage);
     }
     
-    public double GetCompletedToDoPorcentage()
+    public int GetCompletedToDoPorcentage()
     {
         var completedToDos = ToDos.Where(t => t.Completed).ToList();
-        double toDosInProgressPresentation = (double)completedToDos.Count() * (double)100;
-        double porcentage = toDosInProgressPresentation / (double)ToDos.Count();
+        int toDosInProgressPresentation = (int)completedToDos.Count() * (int)100;
+        int porcentage = toDosInProgressPresentation / (int)ToDos.Count();
 
         return ((int)porcentage);
     }
