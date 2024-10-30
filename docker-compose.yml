@@ -4,11 +4,11 @@ services:
     container_name: todo-database
     ports:
       - 5432:5432
-    env_file: ".env"
+    
     environment:
-      - POSTGRES_USER=${USER}
-      - POSTGRES_PASSWORD=${PASSWORD}
-      - POSTGRES_DB=${DATABASE}
+      - POSTGRES_USER=jradmin
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=TodoDb
 
   todolist:
     image: ${DOCKER_REGISTRY-}todolist
@@ -24,10 +24,7 @@ services:
 
     restart: on-failure
 
-    env_file: ".env"
-    environment:
-      - HOST=${HOST}
-      - PORT=${PORT}
-      - USER=${USER}
-      - PASSWORD=${PASSWORD}
-      - DATABASE=${DATABASE}
+    develop:
+      watch:
+        - path: ./
+          action: rebuild
