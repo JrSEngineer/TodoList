@@ -1,7 +1,37 @@
+using Microsoft.EntityFrameworkCore;
+using TodoList.Data.Config;
 using TodoList.Endpoints;
 using TodoList.Infra.Context;
 
 var builder = WebApplication.CreateBuilder(args);
+
+if (builder.Environment.IsDevelopment())
+{
+    var settings = builder.Configuration.GetSection("TodoList").Get<TodoListSettings>();
+
+    var connectionString = settings?.DevConnectionString;
+
+    builder.Services.AddDbContext<TodoDbContext>(options =>
+    {
+        options.UseNpgsql(connectionString);
+    });
+}
+
+if (builder.Environment.IsProduction())
+{
+    var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "Some error has occurred.";
+
+    builder.Services.AddDbContext<TodoDbContext>(options =>
+    {
+        options.UseNpgsql(connectionString);
+    });
+}
+
+builder.Services.AddDbContext<TodoDbContext>();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(options =>
 {
@@ -9,15 +39,15 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyOrigin()
                .AllowAnyHeader()
-               .WithMethods("GET", "POST","PUT", "DELETE", "PATCH");
+               .WithMethods(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH"
+                );
     });
 });
-
-builder.Services.AddDbContext<TodoDbContext>();
-
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
