@@ -1,0 +1,28 @@
+services:
+  database:
+    image: postgres:15-bullseye
+    container_name: todo-database
+    ports:
+      - 5432:5432
+    
+    environment:
+      - POSTGRES_USER=${USER}
+      - POSTGRES_PASSWORD=${PASSWORD}
+      - POSTGRES_DB=${DATABASE}
+
+  todolist:
+    image: ${DOCKER_REGISTRY-}todolist
+    container_name: todo-api
+    build:
+      context: .
+      dockerfile: TodoList/Dockerfile
+    ports:
+      - "6000:6000"
+      - "6001:6001"
+    depends_on: 
+      - database
+
+    restart: on-failure
+
+    environment:
+      - CONNECTION_STRING=host=${HOST}:${PORT};userid=${USER};passsword=${PASSWORD};Database=${DATABASE}
