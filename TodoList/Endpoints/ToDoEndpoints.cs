@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TodoList.Domain.Entities;
-using TodoList.Infra.Context;
+using TodoList.Data.Context;
 
 namespace TodoList.Endpoints
 {

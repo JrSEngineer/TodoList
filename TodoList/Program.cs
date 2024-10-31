@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TodoList.Data.Config;
+using TodoList.Data.Context;
 using TodoList.Endpoints;
-using TodoList.Infra.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +15,8 @@ if (builder.Environment.IsDevelopment())
     {
         options.UseNpgsql(connectionString);
     });
+
+    builder.Services.AddScoped<IDbContextFactory<TodoDbContext>, TodoDbContextFactory>();
 }
 
 if (builder.Environment.IsProduction())
