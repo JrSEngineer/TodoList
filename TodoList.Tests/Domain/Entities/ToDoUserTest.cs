@@ -18,6 +18,7 @@ public class ToDoUserTest
     }
 
     [Fact]
+
     public void CreateANewToDoUserSuccessfully()
     {
         Assert.IsType<ToDoUser>(ToDoUserMocks.newUser);
@@ -25,5 +26,30 @@ public class ToDoUserTest
         Assert.Equal("email123@email.com", ToDoUserMocks.newUser.Account.Email);
 
         Assert.Equal("43423242df45", ToDoUserMocks.newUser.Account.Password);
+    }
+
+    [Fact]
+    public void FailToCreateANewToDoForSelectedUser()
+    {
+        var user = ToDoUserMocks.newUser;
+
+        Assert.Throws<Exception>(() => user.CreateNewTodo("TODO TITLE", ""));
+
+        Assert.Throws<Exception>(() => user.CreateNewTodo("", "TODO DESCRIPTION"));
+    }
+
+
+    [Fact]
+    public void CreateANewToDoForSelectedUserSuccessfully()
+    {
+        var user = ToDoUserMocks.newUser;
+
+        user.CreateNewTodo("TODO TITLE", "TODO DESCRIPTION");
+
+        user.CreateNewTodo("TODO TITLE 2", "TODO DESCRIPTION 2");
+
+        Assert.True(user.ToDos.Count() == 2);
+
+        Assert.Equal("TODO DESCRIPTION", user.ToDos.First().Description);
     }
 }

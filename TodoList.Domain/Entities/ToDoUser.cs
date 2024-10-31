@@ -4,7 +4,7 @@ namespace TodoList.Domain.Entities;
 
 public class ToDoUser
 {
-
+    private readonly List<ToDo> _toDos = [];
     private ToDoUser(string name, string phoneNumber, UserAccount account)
     {
         Name = name;
@@ -20,7 +20,7 @@ public class ToDoUser
 
     public UserAccount Account { get; private set; } = null!;
 
-    public List<ToDo> ToDos { get; private set; } = [];
+    public IReadOnlyCollection<ToDo> ToDos => _toDos;
 
     public static ToDoUser Create(string name, string phoneNumber, UserAccount account)
     {
@@ -39,8 +39,10 @@ public class ToDoUser
         return new ToDoUser(name, phoneNumber, account);
     }
 
-    public void CreateNewTodo(ToDo newTodo)
+    public void CreateNewTodo(string title, string description)
     {
-
+        ToDo newUserTodo = ToDo.Create(title, description, Id);
+        
+        _toDos.Add(newUserTodo);
     }
 }
