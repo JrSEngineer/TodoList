@@ -10,8 +10,10 @@ WORKDIR /src
 COPY ["TodoList/TodoList.csproj", "TodoList/"]
 COPY ["TodoList.Domain/TodoList.Domain.csproj", "TodoList.Domain/"]
 COPY ["TodoList.Infra/TodoList.Infra.csproj", "TodoList.Infra/"]
+COPY ["TodoList.Tests/TodoList.Tests.csproj", "TodoList.Tests/"]
 RUN dotnet restore "./TodoList/TodoList.csproj"
 COPY . .
+RUN dotnet test "./TodoList.Tests"
 WORKDIR "/src/TodoList"
 RUN dotnet build "./TodoList.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
