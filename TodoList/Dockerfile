@@ -9,6 +9,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["TodoList/TodoList.csproj", "TodoList/"]
 COPY ["TodoList.Domain/TodoList.Domain.csproj", "TodoList.Domain/"]
+COPY ["TodoList.Application/TodoList.Application.csproj", "TodoList.Application/"]
 COPY ["TodoList.Infra/TodoList.Infra.csproj", "TodoList.Infra/"]
 COPY ["TodoList.Tests/TodoList.Tests.csproj", "TodoList.Tests/"]
 RUN dotnet restore "./TodoList/TodoList.csproj"
