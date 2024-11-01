@@ -1,4 +1,5 @@
-﻿using TodoList.Domain.Entities;
+﻿using TodoList.Application.Dtos;
+using TodoList.Domain.Entities;
 
 namespace TodoList.Tests.Mocks;
 
@@ -35,4 +36,13 @@ internal class ToDoUserMocks
                  1
                 )
             );
+
+    public static CreateUserDto wrongUserDto = new CreateUserDto(
+        "",
+        "",
+        new CreateUserAccountDto(
+            "",
+            "",
+            1)
+        );
 }
