@@ -2,85 +2,84 @@
 using TodoList.Domain.Entities;
 using TodoList.Data.Context;
 
-namespace TodoList.Endpoints
+namespace TodoList.Endpoints;
+
+public static class ToDoEndpoints
 {
-    public static class ToDoEndpoints
+    public static void MapToDoEndpoints(this IEndpointRouteBuilder app)
     {
-        public static void MapToDoEndpoints(this IEndpointRouteBuilder app)
+        var group = app.MapGroup("api/todos")
+                       .WithTags("ToDos")
+                       .RequireCors("development-policy");
+
+        group.MapPost("", async (TodoDbContext context, ToDo newTodo) =>
         {
-            var group = app.MapGroup("api/todos")
-                           .WithTags("ToDos")
-                           .RequireCors("development-policy");
+            await context.ToDo.AddAsync(newTodo);
+            await context.SaveChangesAsync();
 
-            group.MapPost("", async (TodoDbContext context, ToDo newTodo) =>
+            return Results.Created("todo-api", newTodo);
+        });
+
+        group.MapGet("{id}", async (TodoDbContext context, int id) =>
+        {
+            var currentToDo = await context.ToDo.FindAsync(id);
+            if (currentToDo == null)
             {
-                await context.ToDo.AddAsync(newTodo);
-                await context.SaveChangesAsync();
+                return Results.NotFound($"ToDo not found: {id}");
+            }
 
-                return Results.Created("todo-api", newTodo);
-            });
+            return Results.Ok(currentToDo);
+        });
 
-            group.MapGet("{id}", async (TodoDbContext context, int id) =>
+        group.MapGet("/search={search}", async (TodoDbContext context, string search) =>
+        {
+            var currentToDo = context.ToDo.Where(todo => todo.Title.ToLower().Contains(search.ToLower()) || 
+                                                 todo.Description.ToLower().Contains(search.ToLower())).ToList();
+
+            if (!currentToDo.Any())
             {
-                var currentToDo = await context.ToDo.FindAsync(id);
-                if (currentToDo == null)
-                {
-                    return Results.NotFound($"ToDo not found: {id}");
-                }
+                return Results.NotFound(new {Message = $"ToDo not found. Searching for: {search}" });
+            }
 
-                return Results.Ok(currentToDo);
-            });
+            return Results.Ok(currentToDo);
+        });
 
-            group.MapGet("/search={search}", async (TodoDbContext context, string search) =>
+        group.MapGet("", async (TodoDbContext context) =>
+        {
+            var ToDos = await context.ToDo.ToListAsync();
+            return Results.Ok(ToDos);
+        });
+
+        group.MapPut("{id}", async (TodoDbContext context, int id, ToDo toDo) =>
+        {
+            var currentToDo = await context.ToDo.FindAsync(id);
+            if (currentToDo == null)
             {
-                var currentToDo = context.ToDo.Where(todo => todo.Title.ToLower().Contains(search.ToLower()) || 
-                                                     todo.Description.ToLower().Contains(search.ToLower())).ToList();
+                return Results.NotFound($"ToDo not found: {id}");
+            }
 
-                if (!currentToDo.Any())
-                {
-                    return Results.NotFound(new {Message = $"ToDo not found. Searching for: {search}" });
-                }
+            currentToDo.Title = toDo.Title;
+            currentToDo.Description = toDo.Description;
+            currentToDo.Completed = toDo.Completed;
 
-                return Results.Ok(currentToDo);
-            });
+            await context.SaveChangesAsync();
 
-            group.MapGet("", async (TodoDbContext context) =>
+            return Results.Ok(currentToDo);
+        });
+
+        group.MapDelete("{id}", async (TodoDbContext context, int id) =>
+        {
+            var currentToDo = await context.ToDo.FindAsync(id);
+            if (currentToDo == null)
             {
-                var ToDos = await context.ToDo.ToListAsync();
-                return Results.Ok(ToDos);
-            });
+                return Results.NotFound($"ToDo not found: {id}");
+            }
 
-            group.MapPut("{id}", async (TodoDbContext context, int id, ToDo toDo) =>
-            {
-                var currentToDo = await context.ToDo.FindAsync(id);
-                if (currentToDo == null)
-                {
-                    return Results.NotFound($"ToDo not found: {id}");
-                }
+            context.ToDo.Remove(currentToDo);
 
-                currentToDo.Title = toDo.Title;
-                currentToDo.Description = toDo.Description;
-                currentToDo.Completed = toDo.Completed;
+            await context.SaveChangesAsync();
 
-                await context.SaveChangesAsync();
-
-                return Results.Ok(currentToDo);
-            });
-
-            group.MapDelete("{id}", async (TodoDbContext context, int id) =>
-            {
-                var currentToDo = await context.ToDo.FindAsync(id);
-                if (currentToDo == null)
-                {
-                    return Results.NotFound($"ToDo not found: {id}");
-                }
-
-                context.ToDo.Remove(currentToDo);
-
-                await context.SaveChangesAsync();
-
-                return Results.NoContent();
-            });
-        }
+            return Results.NoContent();
+        });
     }
 }
